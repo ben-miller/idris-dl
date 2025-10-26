@@ -38,6 +38,12 @@ main = do
   -- Test vector version
   test "Vector sigmoid derivative" (map sigmoidDerivative [0.0, 1.0, -1.0]) (vSigmoidDerivative [0.0, 1.0, -1.0])
 
+  -- Loss function tests
+  test "MSE loss - identical vectors" 0.0 (mseLoss [1.0, 2.0, 3.0] [1.0, 2.0, 3.0])
+  test "MSE loss - simple case" 1.0 (mseLoss [1.0, 2.0, 3.0] [2.0, 3.0, 4.0])
+  -- MSE = ((1-2)^2 + (3-4)^2 + (5-6)^2) / 3 = (1 + 1 + 1) / 3 = 1.0
+  test "MSE loss - general case" 1.0 (mseLoss [1.0, 3.0, 5.0] [2.0, 4.0, 6.0])
+
   -- Fully connected NN tests
   let nn = initTwoLayerNN 2 3 2
   test "NN output should be [0.6, 0.8]" [0.6, 0.8] (predictTwoLayer nn [1.0, 2.0])
