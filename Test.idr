@@ -1,6 +1,7 @@
 import Data.Vect
 import LinearAlgebra
 import Statistics
+import FullyConnectedNN
 
 -- Simple test helper
 test : Eq a => Show a => String -> a -> a -> IO ()
@@ -25,3 +26,7 @@ main = do
   test "Matrix-vector multiplication" [5, 11] (matVecMult [[1, 2], [3, 4]] [1, 2])
   test "Matrix multiplication" [[7, 10], [15, 22]] (matMult [[1, 2], [3, 4]] [[1, 2], [3, 4]])
   test "Mean" 3.0 (mean [1.0, 2.0, 3.0, 4.0, 5.0])
+
+  -- Fully connected NN tests
+  let nn = initTwoLayerNN 2 3 2
+  test "NN output should be [0.6, 0.8]" [0.6, 0.8] (predictTwoLayer nn [1.0, 2.0])
