@@ -62,6 +62,16 @@ record TwoLayerNN (input : Nat) (hidden : Nat) (output : Nat) where
   layer1 : FCLayer input hidden
   layer2 : FCLayer hidden output
 
+-- Store intermediate values during forward pass for backpropagation
+public export
+record ForwardCache (input : Nat) (hidden : Nat) (output : Nat) where
+  constructor MkCache
+  inputVec : Vect input Double
+  hiddenPreActivation : Vect hidden Double
+  hiddenActivation : Vect hidden Double
+  outputPreActivation : Vect output Double
+  outputActivation : Vect output Double
+
 -- Forward pass through the two-layer network
 export
 predictTwoLayer : TwoLayerNN input hidden output -> Vect input Double -> Vect output Double
@@ -69,6 +79,18 @@ predictTwoLayer nn input =
   let hidden = vSigmoid (forward nn.layer1 input)
       output = vSigmoid (forward nn.layer2 hidden)
   in output
+
+-- Forward pass that saves intermediate values for backpropagation
+export
+forwardWithCache : TwoLayerNN input hidden output
+                -> Vect input Double
+                -> ForwardCache input hidden output
+forwardWithCache nn input =
+  let hiddenPre = forward nn.layer1 input
+      hiddenAct = vSigmoid hiddenPre
+      outputPre = forward nn.layer2 hiddenAct
+      outputAct = vSigmoid outputPre
+  in MkCache input hiddenPre hiddenAct outputPre outputAct
 
 -- Initialize a layer with zeros (dummy initialization)
 export

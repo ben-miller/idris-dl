@@ -47,3 +47,8 @@ main = do
   -- Fully connected NN tests
   let nn = initTwoLayerNN 2 3 2
   test "NN output should be [0.6, 0.8]" [0.6, 0.8] (predictTwoLayer nn [1.0, 2.0])
+
+  -- Test forwardWithCache
+  let cache = forwardWithCache nn [1.0, 2.0]
+  test "Cache stores input" [1.0, 2.0] (inputVec cache)
+  test "Cache output matches predict" (predictTwoLayer nn [1.0, 2.0]) (outputActivation cache)
