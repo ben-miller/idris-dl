@@ -3,6 +3,7 @@ module FullyConnectedNN
 import Data.Vect
 import LinearAlgebra
 import Statistics
+import System.Clock
 
 -- Activation functions
 export
@@ -162,13 +163,55 @@ trainStep lr nn (inputVec, target) =
       grads = backward nn cache target
   in updateNetwork lr nn grads
 
--- Initialize a layer with zeros (dummy initialization)
-export
-initLayer : (input : Nat) -> (output : Nat) -> FCLayer input output
-initLayer input output = MkFCLayer (replicate output (replicate input 0.0)) (replicate output 0.0)
+-- Simple pseudo-random generator using linear congruential generator
+-- Not cryptographically secure, but sufficient for weight initialization
+rng : Integer -> (Double, Integer)
+rng seed =
+  let a = 1664525
+      c = 1013904223
+      m = 4294967296
+      newSeed = (a * seed + c) `mod` m
+      -- Convert to [0, 1)
+      value = (cast newSeed) / (cast m)
+  in (value, newSeed)
 
--- Initialize a two-layer network with zeros
+-- Generate random value in range [-limit, limit]
+randomInRange : Integer -> Double -> (Double, Integer)
+randomInRange seed limit =
+  let (r, newSeed) = rng seed
+  in ((r * 2.0 - 1.0) * limit, newSeed)
+
+-- Generate a vector of random values
+randomVect : (n : Nat) -> Integer -> Double -> (Vect n Double, Integer)
+randomVect 0 seed limit = ([], seed)
+randomVect (S k) seed limit =
+  let (val, seed1) = randomInRange seed limit
+      (rest, seed2) = randomVect k seed1 limit
+  in (val :: rest, seed2)
+
+-- Generate a matrix of random values
+randomMatrix : (rows : Nat) -> (cols : Nat) -> Integer -> Double -> (Matrix rows cols Double, Integer)
+randomMatrix 0 cols seed limit = ([], seed)
+randomMatrix (S k) cols seed limit =
+  let (row, seed1) = randomVect cols seed limit
+      (rest, seed2) = randomMatrix k cols seed1 limit
+  in (row :: rest, seed2)
+
+-- Xavier/Glorot initialization: scale by sqrt(1 / fan_in)
+initLayerXavier : (input : Nat) -> (output : Nat) -> Integer -> (FCLayer input output, Integer)
+initLayerXavier input output seed =
+  let limit = sqrt (1.0 / cast input)
+      (weights, seed1) = randomMatrix output input seed limit
+      (biases, seed2) = randomVect output seed1 limit
+  in (MkFCLayer weights biases, seed2)
+
+-- Initialize a two-layer network with Xavier initialization
 export
-initTwoLayerNN : (input : Nat) -> (hidden : Nat) -> (output : Nat) -> TwoLayerNN input hidden output
-initTwoLayerNN input hidden output =
-  MkTwoLayerNN (initLayer input hidden) (initLayer hidden output)
+initTwoLayerNN : (input : Nat) -> (hidden : Nat) -> (output : Nat) -> IO (TwoLayerNN input hidden output)
+initTwoLayerNN input hidden output = do
+  -- Use nanosecond clock as seed
+  time <- clockTime Monotonic
+  let seed = cast (nanoseconds time)
+  let (layer1, seed1) = initLayerXavier input hidden seed
+  let (layer2, seed2) = initLayerXavier hidden output seed1
+  pure $ MkTwoLayerNN layer1 layer2
