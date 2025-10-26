@@ -28,6 +28,16 @@ main = do
   test "Matrix multiplication" [[7, 10], [15, 22]] (matMult [[1, 2], [3, 4]] [[1, 2], [3, 4]])
   test "Mean" 3.0 (mean [1.0, 2.0, 3.0, 4.0, 5.0])
 
+  -- Activation function tests
+  test "Sigmoid of 0" 0.5 (sigmoid 0.0)
+  test "Sigmoid derivative of 0" 0.25 (sigmoidDerivative 0.0)
+  -- Test that sigmoid(x) * (1 - sigmoid(x)) equals sigmoidDerivative(x)
+  let testX = 2.5
+  let sigX = sigmoid testX
+  test "Sigmoid derivative matches formula" (sigX * (1.0 - sigX)) (sigmoidDerivative testX)
+  -- Test vector version
+  test "Vector sigmoid derivative" (map sigmoidDerivative [0.0, 1.0, -1.0]) (vSigmoidDerivative [0.0, 1.0, -1.0])
+
   -- Fully connected NN tests
   let nn = initTwoLayerNN 2 3 2
   test "NN output should be [0.6, 0.8]" [0.6, 0.8] (predictTwoLayer nn [1.0, 2.0])
