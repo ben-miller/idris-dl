@@ -92,6 +92,49 @@ forwardWithCache nn input =
       outputAct = vSigmoid outputPre
   in MkCache input hiddenPre hiddenAct outputPre outputAct
 
+-- Gradients for all weights and biases
+public export
+record Gradients (input : Nat) (hidden : Nat) (output : Nat) where
+  constructor MkGradients
+  layer1WeightGrad : Matrix hidden input Double
+  layer1BiasGrad : Vect hidden Double
+  layer2WeightGrad : Matrix output hidden Double
+  layer2BiasGrad : Vect output Double
+
+-- Compute gradients via backpropagation (MSE loss)
+export
+backward : {inp, hid, out : Nat}
+        -> TwoLayerNN inp hid out
+        -> ForwardCache inp hid out
+        -> Vect out Double  -- target
+        -> Gradients inp hid out
+backward nn cache target =
+  -- Output layer gradients
+  -- dL/dOutput = 2 * (predicted - target) / n
+  let outputError = vSub cache.outputActivation target
+      -- For MSE: gradient of loss w.r.t. output activation
+      -- Multiply by sigmoid derivative: dL/dOutputPre = dL/dOutput * sigmoid'(outputPre)
+      outputDelta = vMul outputError (vSigmoidDerivative cache.outputPreActivation)
+
+      -- Layer 2 weight gradients: outer product of delta and hidden activation
+      layer2WeightGrad = outerProduct outputDelta cache.hiddenActivation
+      -- Layer 2 bias gradients: just the delta
+      layer2BiasGrad = outputDelta
+
+      -- Hidden layer gradients
+      -- Backpropagate error through layer 2 weights
+      layer2WeightsT = mTranspose (nn.layer2.weights)
+      hiddenError = matVecMult layer2WeightsT outputDelta
+      -- Multiply by sigmoid derivative
+      hiddenDelta = vMul hiddenError (vSigmoidDerivative cache.hiddenPreActivation)
+
+      -- Layer 1 weight gradients: outer product of delta and input
+      layer1WeightGrad = outerProduct hiddenDelta cache.inputVec
+      -- Layer 1 bias gradients: just the delta
+      layer1BiasGrad = hiddenDelta
+
+  in MkGradients layer1WeightGrad layer1BiasGrad layer2WeightGrad layer2BiasGrad
+
 -- Initialize a layer with zeros (dummy initialization)
 export
 initLayer : (input : Nat) -> (output : Nat) -> FCLayer input output

@@ -25,6 +25,11 @@ export
 dot : Num a => Vect n a -> Vect n a -> a
 dot xs ys = sum $ zipWith (*) xs ys
 
+-- Element-wise multiplication (Hadamard product)
+export
+vMul : Num a => Vect n a -> Vect n a -> Vect n a
+vMul = zipWith (*)
+
 -- Matrix type
 public export
 Matrix : Nat -> Nat -> Type -> Type
@@ -65,3 +70,8 @@ matMult : Num a => { p : _ } -> Matrix m n a -> Matrix n p a -> Matrix m p a
 matMult mat1 mat2 =
   let mat2T = mTranspose mat2
   in map (\row => map (dot row) mat2T) mat1
+
+-- Outer product: create a matrix from two vectors
+export
+outerProduct : Num a => Vect m a -> Vect n a -> Matrix m n a
+outerProduct v1 v2 = map (\x => map (* x) v2) v1
