@@ -47,5 +47,9 @@ mScale k = map (scale k)
 export
 mTranspose : { n : _ } -> Matrix m n a -> Matrix n m a
 mTranspose [] = replicate n []
-mTranspose (x :: xs) = let xsTrans = mTranspose xs in
-                                 zipWith (::) x xsTrans
+mTranspose (x :: xs) = let xsTrans = mTranspose xs in zipWith (::) x xsTrans
+
+-- Matrix-vector multiplication
+export
+matVecMult : Num a => Matrix m n a -> Vect n a -> Vect m a
+matVecMult mat v = map (dot v) mat
