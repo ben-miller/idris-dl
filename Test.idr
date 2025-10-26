@@ -22,3 +22,4 @@ main = do
   test "Matrix scalar multiplication by zero" [[0, 0], [0, 0]] (mScale 0 [[5, 10], [15, 20]])
   test "Matrix transpose" [[1, 3], [2, 4]] (mTranspose [[1, 2], [3, 4]])
   test "Matrix-vector multiplication" [5, 11] (matVecMult [[1, 2], [3, 4]] [1, 2])
+  test "Matrix multiplication" [[7, 10], [15, 22]] (matMult [[1, 2], [3, 4]] [[1, 2], [3, 4]])

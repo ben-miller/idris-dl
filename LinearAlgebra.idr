@@ -53,3 +53,10 @@ mTranspose (x :: xs) = let xsTrans = mTranspose xs in zipWith (::) x xsTrans
 export
 matVecMult : Num a => Matrix m n a -> Vect n a -> Vect m a
 matVecMult mat v = map (dot v) mat
+
+-- Matrix multiplication
+export
+matMult : Num a => { p : _ } -> Matrix m n a -> Matrix n p a -> Matrix m p a
+matMult mat1 mat2 =
+  let mat2T = mTranspose mat2
+  in map (\row => map (dot row) mat2T) mat1
