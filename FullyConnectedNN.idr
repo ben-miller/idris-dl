@@ -2,6 +2,7 @@ module FullyConnectedNN
 
 import Data.Vect
 import LinearAlgebra
+import Statistics
 
 -- Activation functions
 export
@@ -30,6 +31,15 @@ vSigmoidDerivative = map sigmoidDerivative
 export
 vRelu : Vect n Double -> Vect n Double
 vRelu = map relu
+
+-- Loss functions
+-- Mean Squared Error loss
+export
+mseLoss : {n : Nat} -> Vect (S n) Double -> Vect (S n) Double -> Double
+mseLoss predicted target =
+  let diff = vSub predicted target
+      squaredErrors = map (\x => x * x) diff
+  in mean squaredErrors
 
 -- A simple fully connected layer
 public export
