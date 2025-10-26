@@ -28,35 +28,74 @@ accuracy nn dataset =
       numTotal = length dataset
   in (cast {to=Double} correct) / (cast {to=Double} numTotal)
 
+-- Train network on a dataset for one epoch
+trainEpoch : Double -> TwoLayerNN ImageSize 128 10 -> List (Image, Label) -> TwoLayerNN ImageSize 128 10
+trainEpoch lr nn [] = nn
+trainEpoch lr nn ((img, lbl) :: rest) =
+  let target = labelToOneHot lbl
+      updatedNN = trainStep lr nn (img, target)
+  in trainEpoch lr updatedNN rest
+
+-- Train for multiple epochs
+trainEpochs : Nat -> Double -> TwoLayerNN ImageSize 128 10 -> List (Image, Label) -> IO (TwoLayerNN ImageSize 128 10)
+trainEpochs 0 lr nn dataset = pure nn
+trainEpochs (S k) lr nn dataset = do
+  putStrLn $ "Epoch " ++ show (S k) ++ "..."
+  let trainedNN = trainEpoch lr nn dataset
+  trainEpochs k lr trainedNN dataset
+
 main : IO ()
 main = do
-  putStrLn "Loading MNIST test data..."
+  putStrLn "Loading MNIST training data..."
 
-  -- Load test data
-  result <- loadMNIST "python/t10k-images-idx3-ubyte"
-                      "python/t10k-labels-idx1-ubyte"
+  -- Load training data
+  trainResult <- loadMNIST "python/train-images-idx3-ubyte"
+                           "python/train-labels-idx1-ubyte"
 
-  case result of
-    Left err => putStrLn $ "Error loading data: " ++ show err
-    Right testDataset => do
-      putStrLn $ "Loaded " ++ show (length testDataset) ++ " test samples"
+  case trainResult of
+    Left err => putStrLn $ "Error loading training data: " ++ show err
+    Right fullTrainDataset => do
+      putStrLn $ "Loaded " ++ show (length fullTrainDataset) ++ " training samples"
 
-      -- Initialize a dummy network (all zeros)
-      let nn = initTwoLayerNN ImageSize 128 10
+      -- Load test data
+      putStrLn "Loading MNIST test data..."
+      testResult <- loadMNIST "python/t10k-images-idx3-ubyte"
+                              "python/t10k-labels-idx1-ubyte"
 
-      putStrLn "\nTesting network with zero initialization..."
+      case testResult of
+        Left err => putStrLn $ "Error loading test data: " ++ show err
+        Right testDataset => do
+          putStrLn $ "Loaded " ++ show (length testDataset) ++ " test samples\n"
 
-      -- Test on first 100 samples
-      let testSamples = take 100 testDataset
-      let acc = accuracy nn testSamples
+          -- Use subset for faster training
+          let trainDataset = take 1000 fullTrainDataset
+          let testSamples = take 100 testDataset
 
-      putStrLn $ "Accuracy on 100 test samples: " ++ show (acc * 100.0) ++ "%"
-      putStrLn $ "Expected: ~10% (random guessing for 10 classes)"
-      putStrLn $ "\nTest FAILED: Network needs proper training!"
+          -- Initialize network with Xavier initialization
+          nn <- initTwoLayerNN ImageSize 128 10
 
-      -- Show some predictions
-      putStrLn "\nFirst 5 predictions:"
-      for_ (zip [1..5] (take 5 testSamples)) $ \(idx, (img, actual)) => do
-        let pred = argmax (predictTwoLayer nn img)
-        putStrLn $ "  Sample " ++ show idx ++ ": Predicted " ++ show (finToNat pred)
-                   ++ ", Actual " ++ show (finToNat actual)
+          putStrLn "Testing untrained network..."
+          let initialAcc = accuracy nn testSamples
+          putStrLn $ "Initial accuracy: " ++ show (initialAcc * 100.0) ++ "%\n"
+
+          -- Train the network
+          putStrLn "Training network on 1000 samples..."
+          let learningRate = 0.5
+          let numEpochs = 3
+
+          trainedNN <- trainEpochs numEpochs learningRate nn trainDataset
+
+          -- Evaluate trained network
+          putStrLn "\nEvaluating trained network..."
+          let finalAcc = accuracy trainedNN testSamples
+          putStrLn $ "Final accuracy: " ++ show (finalAcc * 100.0) ++ "%"
+          putStrLn $ "Improvement: " ++ show ((finalAcc - initialAcc) * 100.0) ++ "%\n"
+
+          -- Show some predictions
+          putStrLn "Sample predictions:"
+          for_ (zip [1..5] (take 5 testSamples)) $ \(idx, (img, actual)) => do
+            let pred = argmax (predictTwoLayer trainedNN img)
+            let status = if pred == actual then "✓" else "✗"
+            putStrLn $ "  " ++ status ++ " Sample " ++ show idx
+                       ++ ": Predicted " ++ show (finToNat pred)
+                       ++ ", Actual " ++ show (finToNat actual)
