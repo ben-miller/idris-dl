@@ -38,7 +38,7 @@ export
 mseLoss : {n : Nat} -> Vect (S n) Double -> Vect (S n) Double -> Double
 mseLoss predicted target =
   let diff = vSub predicted target
-      squaredErrors = map (\x => x * x) diff
+      squaredErrors = vMul diff diff
   in mean squaredErrors
 
 -- A simple fully connected layer
