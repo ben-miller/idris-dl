@@ -36,6 +36,12 @@ export
 mAdd : Num a => Matrix m n a -> Matrix m n a -> Matrix m n a
 mAdd = zipWith vAdd
 
+-- Matrix subtraction
+-- TODO Overload this?
+export
+mSub : Neg a => Matrix m n a -> Matrix m n a -> Matrix m n a
+mSub = zipWith vSub
+
 -- Matrix scalar multiplication
 -- TODO Overload this?
 export
