@@ -8,6 +8,13 @@ export
 sigmoid : Double -> Double
 sigmoid x = 1.0 / (1.0 + exp (-x))
 
+-- Derivative of sigmoid: σ'(x) = σ(x) * (1 - σ(x))
+export
+sigmoidDerivative : Double -> Double
+sigmoidDerivative x =
+  let s = sigmoid x
+  in s * (1.0 - s)
+
 export
 relu : Double -> Double
 relu x = if x > 0.0 then x else 0.0
@@ -15,6 +22,10 @@ relu x = if x > 0.0 then x else 0.0
 export
 vSigmoid : Vect n Double -> Vect n Double
 vSigmoid = map sigmoid
+
+export
+vSigmoidDerivative : Vect n Double -> Vect n Double
+vSigmoidDerivative = map sigmoidDerivative
 
 export
 vRelu : Vect n Double -> Vect n Double
