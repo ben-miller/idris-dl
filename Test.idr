@@ -17,5 +17,7 @@ main = do
   test "Scalar multiplication by zero" [0, 0, 0] (scale 0 [5, 10, 15])
   test "Scalar multiplication negative" (the (Vect 3 Integer) [-3, -6, -9]) (scale (-3) [1, 2, 3])
   test "Dot product" 32 (dot [1, 2, 3] [4, 5, 6])
+  test "Matrix addition" [[5, 7], [9, 11]] (mAdd [[1, 2], [3, 4]] [[4, 5], [6, 7]])
   test "Matrix scalar multiplication" [[2, 4], [6, 8]] (mScale 2 [[1, 2], [3, 4]])
   test "Matrix scalar multiplication by zero" [[0, 0], [0, 0]] (mScale 0 [[5, 10], [15, 20]])
+  test "Matrix transpose" [[1, 3], [2, 4]] (mTranspose [[1, 2], [3, 4]])
