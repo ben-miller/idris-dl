@@ -135,6 +135,33 @@ backward nn cache target =
 
   in MkGradients layer1WeightGrad layer1BiasGrad layer2WeightGrad layer2BiasGrad
 
+-- Update network parameters using gradients (gradient descent)
+export
+updateNetwork : Double  -- learning rate
+             -> TwoLayerNN input hidden output
+             -> Gradients input hidden output
+             -> TwoLayerNN input hidden output
+updateNetwork learningRate nn grads =
+  let newLayer1 = MkFCLayer
+        (mSub nn.layer1.weights (mScale learningRate grads.layer1WeightGrad))
+        (vSub nn.layer1.biases (scale learningRate grads.layer1BiasGrad))
+      newLayer2 = MkFCLayer
+        (mSub nn.layer2.weights (mScale learningRate grads.layer2WeightGrad))
+        (vSub nn.layer2.biases (scale learningRate grads.layer2BiasGrad))
+  in MkTwoLayerNN newLayer1 newLayer2
+
+-- Single training step on one example
+export
+trainStep : {inp, hid, out : Nat}
+         -> Double  -- learning rate
+         -> TwoLayerNN inp hid out
+         -> (Vect inp Double, Vect out Double)  -- (input, target)
+         -> TwoLayerNN inp hid out
+trainStep lr nn (inputVec, target) =
+  let cache = forwardWithCache nn inputVec
+      grads = backward nn cache target
+  in updateNetwork lr nn grads
+
 -- Initialize a layer with zeros (dummy initialization)
 export
 initLayer : (input : Nat) -> (output : Nat) -> FCLayer input output

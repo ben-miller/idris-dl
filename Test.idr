@@ -52,3 +52,9 @@ main = do
   let cache = forwardWithCache nn [1.0, 2.0]
   test "Cache stores input" [1.0, 2.0] (inputVec cache)
   test "Cache output matches predict" (predictTwoLayer nn [1.0, 2.0]) (outputActivation cache)
+
+  -- Test training step (network should change after training)
+  let trainedNN = trainStep 0.1 nn ([1.0, 2.0], [0.8, 0.2])
+  putStrLn $ "Original NN output: " ++ show (predictTwoLayer nn [1.0, 2.0])
+  putStrLn $ "Trained NN output: " ++ show (predictTwoLayer trainedNN [1.0, 2.0])
+  putStrLn "Training step executed successfully"
