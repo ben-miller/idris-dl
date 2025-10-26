@@ -1,7 +1,6 @@
 module LinearAlgebra
 
 import Data.Vect
-import Data.List
 
 -- Vector addition
 -- TODO Overload this?
