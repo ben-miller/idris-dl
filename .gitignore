@@ -1,2 +1,5 @@
 build
 .claude
+.venv
+.cache
+.DS_Store
