@@ -2,8 +2,7 @@
 
 * Inbox
 * Project Foundations
-** DOING Clean up repo, establish Python scaffolding
-** SELECTED Issue workflow
+** NEXT Clean up repo, establish Python scaffolding
 ** POTENTIAL-UPGRADE Agentic workflow (git branches, workspaces)
 ** POTENTIAL-UPGRADE Jupyter flow integrating Python & Idris
 * Milestone: Rotational equivariance MNIST
@@ -18,6 +17,7 @@
 ** Explorations
 *** NEXT Does ESCNN have existing tests for this?
 - [X] Get ESCNN tests to pass
+*** DOING Implement rotational MNIST test using escnn library
 ** Tasks
 *** SELECTED Milestone description / outline (README.md)
 *** SELECTED Clean up notes
