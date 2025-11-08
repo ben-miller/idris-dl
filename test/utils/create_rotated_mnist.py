@@ -128,10 +128,10 @@ def main():
 
     # Load original MNIST data
     print("Loading MNIST data...\n")
-    train_images = read_idx_images('train-images-idx3-ubyte')
-    train_labels = read_idx_labels('train-labels-idx1-ubyte')
-    test_images = read_idx_images('t10k-images-idx3-ubyte')
-    test_labels = read_idx_labels('t10k-labels-idx1-ubyte')
+    train_images = read_idx_images('../data/train-images-idx3-ubyte')
+    train_labels = read_idx_labels('../data/train-labels-idx1-ubyte')
+    test_images = read_idx_images('../data/t10k-images-idx3-ubyte')
+    test_labels = read_idx_labels('../data/t10k-labels-idx1-ubyte')
 
     if mode == 'augment':
         # Create augmented training set with 4 rotations
@@ -142,8 +142,8 @@ def main():
             train_images, train_labels, angles=[0, 90, 180, 270]
         )
 
-        write_idx_images('train-augmented-images-idx3-ubyte', aug_train_images)
-        write_idx_labels('train-augmented-labels-idx1-ubyte', aug_train_labels)
+        write_idx_images('../data/train-augmented-images-idx3-ubyte', aug_train_images)
+        write_idx_labels('../data/train-augmented-labels-idx1-ubyte', aug_train_labels)
 
         # Also create augmented test set
         print("\n" + "="*60)
@@ -153,8 +153,8 @@ def main():
             test_images, test_labels, angles=[0, 90, 180, 270]
         )
 
-        write_idx_images('t10k-augmented-images-idx3-ubyte', aug_test_images)
-        write_idx_labels('t10k-augmented-labels-idx1-ubyte', aug_test_labels)
+        write_idx_images('../data/t10k-augmented-images-idx3-ubyte', aug_test_images)
+        write_idx_labels('../data/t10k-augmented-labels-idx1-ubyte', aug_test_labels)
 
     elif mode == 'rotate':
         if len(sys.argv) < 3:

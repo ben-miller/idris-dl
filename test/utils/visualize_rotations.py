@@ -90,11 +90,11 @@ def visualize_grid(angle=0, n_samples=16):
 
 def compare_original_vs_augmented():
     """Compare original vs augmented dataset"""
-    original_images = read_idx_images('train-images-idx3-ubyte')
-    original_labels = read_idx_labels('train-labels-idx1-ubyte')
+    original_images = read_idx_images('../data/train-images-idx3-ubyte')
+    original_labels = read_idx_labels('../data/train-labels-idx1-ubyte')
 
-    aug_images = read_idx_images('train-augmented-images-idx3-ubyte')
-    aug_labels = read_idx_labels('train-augmented-labels-idx1-ubyte')
+    aug_images = read_idx_images('../data/train-augmented-images-idx3-ubyte')
+    aug_labels = read_idx_labels('../data/train-augmented-labels-idx1-ubyte')
 
     # Show first digit and its 3 rotations from augmented set
     sample_idx = 0
