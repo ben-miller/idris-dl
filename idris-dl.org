@@ -1,0 +1,27 @@
+#+TODO: INBOX IDEA POTENTIAL-UPGRADE SELECTED NEXT DOING BUG CANCELLED | DONE
+
+* Inbox
+* Project Foundations
+** SELECTED Clean up repo, establish Python scaffolding
+** SELECTED Issue workflow
+** POTENTIAL-UPGRADE Agentic workflow (git branches, workspaces)
+** POTENTIAL-UPGRADE Jupyter flow integrating Python & Idris
+* Milestone: Rotational equivariance MNIST
+** Success Criteria
+1. Achieves 80% accuracy on rotated digits set
+2. Outperforms non-rotational baseline
+3. Trains significantly faster than baseline
+4. Results directly comparable to ESCNN implementation
+** Desired Side Effects
+1. Acquired skill & improved tooling in Idris2 and Python ML ecosystem
+2. Basic workflow for issues and milestone execution
+** Explorations
+*** DOING Does ESCNN have existing tests for this?
+** Tasks
+*** SELECTED Milestone description / outline (README.md)
+*** SELECTED Clean up notes
+*** SELECTED Implement rotational equivariance on MNIST digits
+- Use https://github.com/QUVA-Lab/escnn as reference
+*** SELECTED Adapt tests from ESCNN
+*** SELECTED Get ESCNN tests to pass locally
+*** SELECTED Train idris-gdl on rotated images
