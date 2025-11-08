@@ -2,7 +2,7 @@
 
 * Inbox
 * Project Foundations
-** SELECTED Clean up repo, establish Python scaffolding
+** DOING Clean up repo, establish Python scaffolding
 ** SELECTED Issue workflow
 ** POTENTIAL-UPGRADE Agentic workflow (git branches, workspaces)
 ** POTENTIAL-UPGRADE Jupyter flow integrating Python & Idris
@@ -16,7 +16,8 @@
 1. Acquired skill & improved tooling in Idris2 and Python ML ecosystem
 2. Basic workflow for issues and milestone execution
 ** Explorations
-*** DOING Does ESCNN have existing tests for this?
+*** NEXT Does ESCNN have existing tests for this?
+- [X] Get ESCNN tests to pass
 ** Tasks
 *** SELECTED Milestone description / outline (README.md)
 *** SELECTED Clean up notes
