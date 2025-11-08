@@ -3,6 +3,8 @@
 * Inbox
 * Project Foundations
 ** NEXT Clean up repo, establish Python scaffolding
+- [ ] Move python to project base
+- [ ] Start using PyCharm
 ** POTENTIAL-UPGRADE Agentic workflow (git branches, workspaces)
 ** POTENTIAL-UPGRADE Jupyter flow integrating Python & Idris
 * Milestone: Rotational equivariance MNIST
