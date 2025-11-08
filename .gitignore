@@ -3,3 +3,5 @@ build
 .venv
 .cache
 .DS_Store
+*.pyc
+.ipynb_checkpoints/
