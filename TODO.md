@@ -15,12 +15,12 @@ Compare three approaches to handling rotated MNIST digits:
 ## Implementation Checklist
 
 ### Phase 1: Data Loading
-- [ ] Create MNIST data loading module (`lib/mnist_loader.py`)
-  - [ ] Parse binary idx format files (idx3-ubyte for images, idx1-ubyte for labels)
-  - [ ] Load standard MNIST train/test
-  - [ ] Load individual rotated variants
-  - [ ] Create augmented dataset (combine all rotations)
-  - [ ] Add DataLoader wrappers for batch loading
+- [x] Create MNIST data loading module (`test/rotational_mnist/mnist_loader.py`)
+  - [x] Parse binary idx format files (idx3-ubyte for images, idx1-ubyte for labels)
+  - [x] Load standard MNIST train/test
+  - [x] Load individual rotated variants
+  - [x] Create augmented dataset (combine all rotations)
+  - [x] Add DataLoader wrappers for batch loading
 
 ### Phase 2: Model Definitions
 - [ ] Create baseline CNN model (`lib/models/standard_cnn.py`)

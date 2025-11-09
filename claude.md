@@ -209,14 +209,13 @@ poetry run python test/utils/create_rotated_mnist.py rotated 45
 
 ## Current Experimental Focus
 
-**Rotational MNIST Comparison** (5-phase plan):
-1. Data loading infrastructure (✓ complete)
-2. Standard CNN implementation (in progress)
-3. Augmented training CNN (planned)
-4. ESCNN equivariant architecture (planned)
-5. Evaluation and comparison (planned)
+See TODO.md for the rotational MNIST comparison project checklist and implementation status.
 
-Expected deliverable: Comparison table showing accuracy across 3 approaches on rotated test sets.
+**IMPORTANT REMINDER**: After completing each phase/implementation:
+1. Mark phase as complete in TODO.md
+2. Update relevant sections in CLAUDE.md with new features/changes
+3. Commit changes to git with clear message describing what was implemented
+4. This ensures documentation stays current and progress is tracked
 
 ## Key Implementation Details
 
