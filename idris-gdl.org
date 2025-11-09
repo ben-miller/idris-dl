@@ -2,7 +2,7 @@
 
 * Inbox
 * Project Foundations
-** NEXT Clean up repo, establish Python scaffolding
+** DONE Clean up repo, establish Python scaffolding
 - [X] Move python to project base
 - [X] Start using PyCharm
 ** POTENTIAL-UPGRADE Agentic workflow (git branches, workspaces)
@@ -17,7 +17,7 @@
 1. Acquired skill & improved tooling in Idris2 and Python ML ecosystem
 2. Basic workflow for issues and milestone execution
 ** Explorations
-*** NEXT Does ESCNN have existing tests for this?
+*** DONE Does ESCNN have existing tests for this?
 - [X] Get ESCNN tests to pass
 *** DOING Implement rotational MNIST test using escnn library
 - [X] Import ESCNN, get tests to pass
