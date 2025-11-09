@@ -1,6 +1,6 @@
-# Idris DL Python
+# Idris GDL
 
-A Python project for deep learning experiments with the Idris library, focusing on rotated MNIST and equivariant neural networks.
+Geometric deep learning experiments with Idris2.
 
 ## Features
 
