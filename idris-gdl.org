@@ -1,6 +1,16 @@
 #+TODO: INBOX IDEA POTENTIAL-UPGRADE SELECTED NEXT DOING BUG CANCELLED | DONE
 
 * Inbox
+** INBOX Logging config (yaml)
+** INBOX CUDA: force configuration
+** INBOX Clean separation of README.md, CLAUDE.md, STRUCTURE.md, CONTRIBUTING.md, etc.
+** INBOX Make claude aware of this file
+** INBOX Claude issue execution checklist:
+- Docs updated
+- Tests written
+- Tests pass
+- Entrypoints in makefile
+- ...
 * Project Foundations
 ** DONE Clean up repo, establish Python scaffolding
 - [X] Move python to project base
