@@ -1,0 +1,7 @@
+# Default configuration (checked into git)
+# To override locally without committing, create config.yml (git-ignored)
+
+training:
+  epochs: 10
+  batch_size: 32
+  learning_rate: 0.001

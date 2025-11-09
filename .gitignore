@@ -6,3 +6,8 @@ build
 .ipynb_checkpoints/
 *-ubyte
 .direnv
+config/config.yml
+*.pt
+*.pth
+models/
+results/
