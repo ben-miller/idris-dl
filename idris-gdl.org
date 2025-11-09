@@ -20,6 +20,7 @@
 *** NEXT Does ESCNN have existing tests for this?
 - [X] Get ESCNN tests to pass
 *** DOING Implement rotational MNIST test using escnn library
+- [X] Import ESCNN, get tests to pass
 ** Tasks
 *** SELECTED Milestone description / outline (README.md)
 *** SELECTED Clean up notes

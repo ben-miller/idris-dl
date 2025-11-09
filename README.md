@@ -13,17 +13,22 @@ A Python project for deep learning experiments with the Idris library, focusing 
 
 ```bash
 poetry install
+
+# Install local lie-learn fork (required for ESCNN)
+poetry run pip install -e ~/src/forks/lie_learn
 ```
 
 ## Dependencies
 
-- numpy: ^2.1.3
-- pandas: ^2.2.3
-- pyarrow: ^18.0.0
-- pillow: ^11.0.0
-- scipy: ^1.16.2
-- matplotlib: ^3.10.7
-- jupyter: ^1.1.1
+- numpy: ^2.1
+- pandas: ^2.2
+- pyarrow: >=15.0.0
+- pillow: ^11.0
+- scipy: ^1.14
+- matplotlib: ^3.10
+- jupyter: ^1.0
+- torch: >=2.6.0
+- escnn: ^1.0.11 (requires local lie-learn fork)
 
 ## Usage
 
