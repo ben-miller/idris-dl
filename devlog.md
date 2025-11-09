@@ -9,6 +9,7 @@
 - Fix python environment for idris-gdl
 - Explore, grok ESCNN tests
 - Explore possibility of making standardized test suite for group equivariance
-- Clean up git history: remove "Generated with Claude Code" and "Co-Authored-By" attribution lines from all 44 commits
-- Add git commit message guidelines to CLAUDE.md
-- Update README.md to reflect project as Geometric Deep Learning (GDL)
+- Start using claude.md
+- Phase 1: MNIST data loading infrastructure
+- Phase 2: Neural network models (StandardCNN baseline, ESCNNCnn equivariant)
+- Phase 3: Full training pipeline with configuration management and per-model result tracking
