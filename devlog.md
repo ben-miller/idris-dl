@@ -9,3 +9,6 @@
 - Fix python environment for idris-gdl
 - Explore, grok ESCNN tests
 - Explore possibility of making standardized test suite for group equivariance
+- Clean up git history: remove "Generated with Claude Code" and "Co-Authored-By" attribution lines from all 44 commits
+- Add git commit message guidelines to CLAUDE.md
+- Update README.md to reflect project as Geometric Deep Learning (GDL)
