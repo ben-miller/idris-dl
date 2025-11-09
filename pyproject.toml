@@ -19,6 +19,9 @@ jupyter = "^1.0"
 torch = ">=2.6.0"
 
 
+[tool.poetry.group.dev.dependencies]
+pytest = "^9.0.0"
+
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
