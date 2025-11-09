@@ -11,6 +11,12 @@
 ## Python Project Structure
 
 ```
+lib/
+└── models/                     # Neural network models
+    ├── __init__.py
+    ├── standard_cnn.py         # Standard CNN baseline (Cases 1 & 2)
+    └── escnn_cnn.py            # SO(2)-equivariant CNN (Case 3)
+
 test/
 ├── utils/                      # Data processing utilities
 │   ├── parquet_to_idx.py      # Convert Parquet to binary IDX format
@@ -20,7 +26,9 @@ test/
 │   └── test_pytorch_hello.py   # PyTorch and ESCNN validation tests
 └── rotational_mnist/           # Rotational MNIST experiment
     ├── __init__.py
-    └── mnist_loader.py         # Complete MNIST data loading module
+    ├── mnist_loader.py         # Complete MNIST data loading module
+    ├── train.py                # Training pipeline (Phase 3)
+    └── evaluate.py             # Evaluation and testing (Phase 4)
 
 data/
 ├── mnist/                      # Parquet format MNIST source files
@@ -82,6 +90,40 @@ Comprehensive PyTorch and ESCNN validation tests:
 ```bash
 make test_pytorch
 make watch_pytorch
+```
+
+## Neural Network Models
+
+### standard_cnn.py
+Standard 3-layer CNN for MNIST classification (baseline model):
+- **Architecture**: Conv(32) -> Conv(64) -> Conv(128) -> FC(128) -> FC(10)
+- **Usage Cases**:
+  - Case 1: Trained on upright MNIST only (baseline, expects poor rotation robustness)
+  - Case 2: Trained on augmented dataset (all rotations combined)
+- **Activation**: ReLU with max pooling (2x2)
+- **Regularization**: Dropout (p=0.5)
+- **Parameter Count**: ~170k parameters
+
+**Import**:
+```python
+from lib.models import StandardCNN
+model = StandardCNN()
+```
+
+### escnn_cnn.py
+SO(2)-equivariant CNN using ESCNN (E(2)-equivariant Steerable CNNs):
+- **Architecture**: Equivariant conv layers using SO(2) group representations
+- **Equivariance**: Automatically handles rotations via group-theoretic convolutions
+- **Usage Cases**:
+  - Case 3: Trained on upright MNIST only, but equivariant to all rotations
+- **Activation**: ReLU with max pooling (2x2)
+- **Regularization**: Dropout (p=0.5)
+- **Key Insight**: Learns rotational invariance without data augmentation by design
+
+**Import**:
+```python
+from lib.models import ESCNNCnn
+model = ESCNNCnn()
 ```
 
 ## Development Environment

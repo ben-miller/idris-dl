@@ -23,12 +23,12 @@ Compare three approaches to handling rotated MNIST digits:
   - [x] Add DataLoader wrappers for batch loading
 
 ### Phase 2: Model Definitions
-- [ ] Create baseline CNN model (`lib/models/standard_cnn.py`)
-  - [ ] Design 2-3 layer CNN suitable for MNIST
-  - [ ] Consistent architecture for cases 1 & 2
-- [ ] Create ESCNN model (`lib/models/escnn_cnn.py`)
-  - [ ] Use SO(2)-equivariant convolutions
-  - [ ] Match capacity roughly to standard CNN
+- [x] Create baseline CNN model (`lib/models/standard_cnn.py`)
+  - [x] Design 2-3 layer CNN suitable for MNIST
+  - [x] Consistent architecture for cases 1 & 2
+- [x] Create ESCNN model (`lib/models/escnn_cnn.py`)
+  - [x] Use SO(2)-equivariant convolutions
+  - [x] Match capacity roughly to standard CNN
 
 ### Phase 3: Training Pipeline
 - [ ] Create training script (`test/rotational_mnist/train.py`)

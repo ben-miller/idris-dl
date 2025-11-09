@@ -1,4 +1,4 @@
-.PHONY: watch test test_mnist watch_mnist test_nn watch_nn test_pytorch watch_pytorch
+.PHONY: watch test test_mnist watch_mnist test_nn watch_nn test_pytorch watch_pytorch test_models watch_models
 
 test:
 	idris2 --exec main test/Test.idr
@@ -23,4 +23,10 @@ test_pytorch:
 
 watch_pytorch:
 	watchexec -e py -- poetry run python test/escnn/test_pytorch_hello.py
+
+test_models:
+	poetry run pytest test/models/test_models.py -v
+
+watch_models:
+	watchexec -e py -- poetry run pytest test/models/test_models.py -v
 
