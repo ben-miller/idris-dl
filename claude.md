@@ -333,6 +333,8 @@ See TODO.md for the rotational MNIST comparison project checklist and implementa
 3. Commit changes to git with clear message describing what was implemented
 4. This ensures documentation stays current and progress is tracked
 
+**GIT COMMIT NOTES**: Use clear, concise commit messages focused on the work. Avoid adding "Generated with Claude" and "Co-Authored-By: Claude" lines at the end of commit messages.
+
 ## Key Implementation Details
 
 **Image Rotation**: Uses scipy.ndimage with PIL for interpolation
