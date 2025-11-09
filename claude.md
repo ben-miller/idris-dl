@@ -1,5 +1,11 @@
 # Claude.md - idris-gdl Python Development Guide
 
+**IMPORTANT**: This document works together with **README.md**. Both are equally important:
+- **README.md** - User-facing: quick start, installation, command reference, training guide
+- **CLAUDE.md** - Developer guide: implementation details, architecture, internal workflows
+
+Always keep both updated and synchronized when making changes.
+
 ## Project Overview
 
 **idris-gdl** is a hybrid Python/Idris2 project investigating rotational invariance and robustness in neural networks. The Python side focuses on:
@@ -12,10 +18,13 @@
 
 ```
 lib/
-└── models/                     # Neural network models
+├── models/                     # Neural network models
+│   ├── __init__.py
+│   ├── standard_cnn.py         # Standard CNN baseline (Cases 1 & 2)
+│   └── escnn_cnn.py            # SO(2)-equivariant CNN (Case 3)
+└── training/                   # Reusable training infrastructure
     ├── __init__.py
-    ├── standard_cnn.py         # Standard CNN baseline (Cases 1 & 2)
-    └── escnn_cnn.py            # SO(2)-equivariant CNN (Case 3)
+    └── base.py                 # Common training utilities and classes
 
 test/
 ├── utils/                      # Data processing utilities
@@ -24,11 +33,23 @@ test/
 │   └── visualize_rotations.py  # Visualize augmentation and rotations
 ├── escnn/                      # ESCNN/PyTorch experiments
 │   └── test_pytorch_hello.py   # PyTorch and ESCNN validation tests
-└── rotational_mnist/           # Rotational MNIST experiment
-    ├── __init__.py
-    ├── mnist_loader.py         # Complete MNIST data loading module
-    ├── train.py                # Training pipeline (Phase 3)
-    └── evaluate.py             # Evaluation and testing (Phase 4)
+├── rotational_mnist/           # Rotational MNIST data loading and configuration
+│   ├── __init__.py
+│   ├── config.py               # Pydantic configuration management
+│   ├── training_config.yaml    # Default training hyperparameters
+│   ├── mnist_loader.py         # Complete MNIST data loading module
+│   ├── test_mnist_loader.py    # Unit tests for MNIST loader
+│   └── test_train.py           # Unit tests for training code
+└── experiments/                # Experiment-specific training code
+    └── rotational_mnist/       # Rotational MNIST training experiments
+        ├── __init__.py
+        ├── train_baseline.py   # Case 1: Standard CNN on upright MNIST
+        ├── train_augmented.py  # Case 2: Standard CNN with data augmentation
+        └── train_equivariant.py # Case 3: ESCNN equivariant CNN
+
+scripts/
+└── rotational_mnist/
+    └── train.py                # Training orchestrator (entry point)
 
 data/
 ├── mnist/                      # Parquet format MNIST source files
@@ -149,6 +170,8 @@ poetry run pip install -e ~/src/forks/lie_learn  # ESCNN dependency fork
 - `pandas` ^2.2, `pyarrow` >=15.0.0 - Data handling
 - `matplotlib` ^3.10 - Visualization
 - `jupyter` ^1.0 - Interactive notebooks
+- `pydantic` ^2.0 - Type-safe configuration management
+- `pyyaml` ^6.0 - YAML config file parsing
 - `pytest` ^9.0.0 - Testing (dev dependency)
 
 ## Code Style and Conventions
@@ -200,18 +223,69 @@ with open(filename, 'rb') as f:
 - Test images: (10000, 28, 28)
 - Test labels: (10000,)
 
+## Training Architecture
+
+The training pipeline is split into modular, focused components with clear separation of concerns:
+
+**Reusable training infrastructure** (`lib/training/`):
+- `base.py` - Shared utilities (`TrainingTracker`, `train_epoch()`, `evaluate()`, `train_model()`)
+  - Can be imported and used by any training code in the project
+  - No experiment-specific dependencies
+
+**Experiment-specific training code** (`test/experiments/rotational_mnist/`):
+- `train_baseline.py` - Case 1: Standard CNN on upright MNIST (poor robustness expected)
+- `train_augmented.py` - Case 2: Standard CNN with data augmentation (robustness via data)
+- `train_equivariant.py` - Case 3: ESCNN equivariant CNN (robustness via architecture)
+- Each imports shared utilities from `lib.training` and data loaders from `test.rotational_mnist`
+
+**Data loading and configuration** (`test/rotational_mnist/`):
+- `mnist_loader.py` - Complete MNIST data loading module with PyTorch integration
+- `config.py` - Pydantic-based configuration manager with hierarchical merging
+- `config/config-default.yml` - Default hyperparameters (checked into git)
+- `config/config.yml` - Local overrides (git-ignored, optional)
+
+**Entry point** (`scripts/rotational_mnist/train.py`):
+- Orchestrator that imports case-specific trainers and aggregates results
+- Loads configuration and coordinates training of specified models
+- Saves per-model results to: `training_results.baseline.json`, `training_results.augmented.json`, `training_results.equivariant.json`
+- Also saves combined results to `training_results.json` for reference
+
+**Results tracking**:
+- `TrainingTracker` records per-epoch training loss, validation accuracy, and elapsed time
+- Results saved to individual JSON files per model, plus combined file for easy comparison
+- File naming: `models/training_results.{baseline|augmented|equivariant}.json`
+
 ## Makefile Targets
+
+**IMPORTANT**: Every Python entry point script must have a corresponding Makefile target. This ensures consistent command structure and makes workflows discoverable.
 
 All Makefile targets automatically use `poetry run` internally. Execute with:
 ```bash
-make test_pytorch      # Run PyTorch/ESCNN tests (via poetry)
-make watch_pytorch     # Watch and re-run on file changes (via poetry)
-make test              # Run Idris tests (full suite)
+# Training commands (see README.md for details)
+make train_mnist           # Train all three models
+make train_baseline        # Train baseline only
+make train_augmented       # Train augmented only
+make train_equivariant     # Train equivariant only
+
+# Evaluation commands
+make evaluate              # Evaluate all trained models on rotated test sets
+make evaluate_models       # Alias for evaluate
+
+# Test commands
+make test_pytorch          # Run PyTorch/ESCNN tests (via poetry)
+make watch_pytorch         # Watch and re-run on file changes (via poetry)
+make test                  # Run Idris tests (full suite)
+make test_train            # Run training unit tests
 ```
+
+**Entry Point Convention**:
+- Every script in `scripts/` must have a Makefile target
+- Entry points import and call `main()` from implementation modules
+- Never call `poetry run python scripts/...` directly—use `make <target>` instead
 
 Do NOT call Python directly. Always use either:
 - `make <target>` for predefined workflows
-- `poetry run python <script>` for direct Python execution
+- `poetry run python -m <module>` for module execution when no target exists
 - `poetry run pytest` for pytest execution
 
 ## Common Development Workflows

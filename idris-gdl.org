@@ -21,6 +21,7 @@
 - [X] Get ESCNN tests to pass
 *** DOING Implement rotational MNIST test using escnn library
 - [X] Import ESCNN, get tests to pass
+- [ ] Move beyond trivial case, use irreps
 ** Tasks
 *** SELECTED Milestone description / outline (README.md)
 *** SELECTED Clean up notes
