@@ -141,6 +141,24 @@ files = [
 ]
 
 [[package]]
+name = "autograd"
+version = "1.8.0"
+description = "Efficiently computes derivatives of NumPy code."
+optional = false
+python-versions = ">=3.9"
+files = [
+    {file = "autograd-1.8.0-py3-none-any.whl", hash = "sha256:4ab9084294f814cf56c280adbe19612546a35574d67c574b04933c7d2ecb7d78"},
+    {file = "autograd-1.8.0.tar.gz", hash = "sha256:107374ded5b09fc8643ac925348c0369e7b0e73bbed9565ffd61b8fd04425683"},
+]
+
+[package.dependencies]
+numpy = "<3"
+
+[package.extras]
+scipy = ["scipy"]
+test = ["pytest", "pytest-cov", "pytest-xdist"]
+
+[[package]]
 name = "babel"
 version = "2.17.0"
 description = "Internationalization utilities"
@@ -616,6 +634,27 @@ files = [
 ]
 
 [[package]]
+name = "escnn"
+version = "1.0.11"
+description = "E(n)-Equivariant CNNs Library for PyTorch"
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "escnn-1.0.11-py3-none-any.whl", hash = "sha256:0097a3752e317be70bccf0bb14fc9674fbb859ae5ddd735b8cf35a8533f6f536"},
+    {file = "escnn-1.0.11.tar.gz", hash = "sha256:c2e086e39e0215b163ac2f0df66e0e5691eda06f7fb6f541bd45239e831d3e51"},
+]
+
+[package.dependencies]
+autograd = "*"
+joblib = "*"
+lie-learn = "*"
+numpy = "*"
+py3nj = "*"
+pymanopt = "*"
+scipy = "*"
+torch = ">=1.3"
+
+[[package]]
 name = "executing"
 version = "2.2.1"
 description = "Get the currently executing AST node of a frame, and other information"
@@ -1013,6 +1052,17 @@ MarkupSafe = ">=2.0"
 
 [package.extras]
 i18n = ["Babel (>=2.7)"]
+
+[[package]]
+name = "joblib"
+version = "1.5.2"
+description = "Lightweight pipelining with Python functions"
+optional = false
+python-versions = ">=3.9"
+files = [
+    {file = "joblib-1.5.2-py3-none-any.whl", hash = "sha256:4e1f0bdbb987e6d843c70cf43714cb276623def372df3c22fe5266b2670bc241"},
+    {file = "joblib-1.5.2.tar.gz", hash = "sha256:3faa5c39054b2f03ca547da9b2f52fde67c06240c31853f306aea97f13647b55"},
+]
 
 [[package]]
 name = "json5"
@@ -1467,6 +1517,29 @@ atomic-cache = ["atomicwrites"]
 interegular = ["interegular (>=0.3.1,<0.4.0)"]
 nearley = ["js2py"]
 regex = ["regex"]
+
+[[package]]
+name = "lie-learn"
+version = "0.0.1.post1"
+description = "A python package that knows how to do various tricky computations related to Lie groups and manifolds (mainly the sphere S2 and rotation group SO3)."
+optional = false
+python-versions = ">2.7,!=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*, !=3.5.*"
+files = [
+    {file = "lie_learn-0.0.1.post1-cp35-cp35m-macosx_10_6_x86_64.whl", hash = "sha256:bff504b89a0e79d085bf61bc431f7b794a6abb1702343600bc2d670175fa4ef2"},
+    {file = "lie_learn-0.0.1.post1-cp35-cp35m-manylinux1_x86_64.whl", hash = "sha256:c444d1e855f054f1958a6f3ad61dc3e303716e0f28dc8988a69bb78d77fc700f"},
+    {file = "lie_learn-0.0.1.post1-cp36-cp36m-macosx_10_9_x86_64.whl", hash = "sha256:ac706c6fa26b2d8f39fba65cc1ba97fa40801ee565b7a26d46f3a84875287a0d"},
+    {file = "lie_learn-0.0.1.post1-cp36-cp36m-manylinux1_x86_64.whl", hash = "sha256:f95517cfc3986c2c42ffb60c5a050cb6ac55d0e1293bc69959d1b73683474e03"},
+    {file = "lie_learn-0.0.1.post1-cp37-cp37m-macosx_10_9_x86_64.whl", hash = "sha256:a6799a03c023950d46cf3e3dae386b4871f31cbeb2db4cde9d7df37a11f9abbd"},
+    {file = "lie_learn-0.0.1.post1-cp37-cp37m-manylinux1_x86_64.whl", hash = "sha256:9ed9182182095ffc86866d1409c6ccbc7d9cedb411badf2f27b4f860b0b5b6e1"},
+    {file = "lie_learn-0.0.1.post1-cp38-cp38-macosx_10_9_x86_64.whl", hash = "sha256:13fd137baffa5f74fe1f8114859acc2f378a67526b61cf056a54153b8aea6993"},
+    {file = "lie_learn-0.0.1.post1-cp38-cp38-manylinux1_x86_64.whl", hash = "sha256:fec2e72231c029198717b520153ed40b9f3c8ccd46c811f89e55050bb854be89"},
+    {file = "lie_learn-0.0.1.post1.tar.gz", hash = "sha256:de8f5dcb387bf39ba7470830b86b9085ceaaedf07392629ff512c76571dc6020"},
+]
+
+[package.dependencies]
+numpy = {version = "*", markers = "python_version >= \"3.0\""}
+requests = "*"
+scipy = {version = "*", markers = "python_version >= \"3.0\""}
 
 [[package]]
 name = "markupsafe"
@@ -2503,6 +2576,22 @@ files = [
 tests = ["pytest"]
 
 [[package]]
+name = "py3nj"
+version = "0.2.1"
+description = "numpy compatible wigner 3n-J symbols"
+optional = false
+python-versions = "~=3.8"
+files = [
+    {file = "py3nj-0.2.1.tar.gz", hash = "sha256:3f9a79b3b18a51570c835c174a941f3cd3b552d1d3414debebeb70ce759512fe"},
+]
+
+[package.dependencies]
+numpy = "*"
+
+[package.extras]
+test = ["pytest"]
+
+[[package]]
 name = "pyarrow"
 version = "22.0.0"
 description = "Python library for Apache Arrow"
@@ -2585,6 +2674,32 @@ files = [
 
 [package.extras]
 windows-terminal = ["colorama (>=0.4.6)"]
+
+[[package]]
+name = "pymanopt"
+version = "2.2.1"
+description = "Toolbox for optimization on Riemannian manifolds with support for automatic differentiation"
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "pymanopt-2.2.1-py3-none-any.whl", hash = "sha256:75fb11cc924252c8f045779a8ed4b054ddb805a540c314989598d60447560818"},
+    {file = "pymanopt-2.2.1.tar.gz", hash = "sha256:c784929a436eb06d73371b53ae5db3cdc19c5e60280f8131553bc805cbf7a1da"},
+]
+
+[package.dependencies]
+numpy = ">=1.16.0"
+scipy = ">=1.0,<1.10.dev0 || >=1.13.dev0"
+
+[package.extras]
+all = ["pymanopt[backends,dev]"]
+autograd = ["autograd (>=1.2)"]
+backends = ["pymanopt[autograd,jax,tensorflow,torch]"]
+ci = ["build (==0.8.0)", "pip (==22.3.1)", "setuptools (==66.1.0)", "wheel (==0.38.4)"]
+dev = ["black[jupyter] (==22.3.0)", "flake8 (==5.0.4)", "flake8-bugbear (==22.12.6)", "flake8-docstrings (==1.6.0)", "flake8-import-order (==0.18.2)", "flake8-pyproject (==1.2.2)", "isort (==5.11.5)", "matplotlib", "pre-commit", "pytest (==7.2.0)", "pytest-cov (==4.0.0)"]
+docs = ["docutils (==0.16)", "ipykernel (==6.4.2)", "myst-parser (==0.16.1)", "nbsphinx (==0.8.7)", "sphinx (==4.2.0)", "sphinx-rtd-theme (==1.0.0)", "sphinxcontrib-katex (==0.8.6)"]
+jax = ["jax (>=0.2.0)", "jaxlib"]
+tensorflow = ["tensorflow (>=2.0.0)"]
+torch = ["torch (>=1.0.0)"]
 
 [[package]]
 name = "pyparsing"
@@ -3524,4 +3639,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.13"
-content-hash = "c23491d284fc532118133a45464885c05381d718b6153d68b07e2380bb7f3035"
+content-hash = "296d777146f6559f94f6bcbed51ae944256469fed60def64afb1e3d98908bd5a"

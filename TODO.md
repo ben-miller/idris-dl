@@ -31,12 +31,12 @@ Compare three approaches to handling rotated MNIST digits:
   - [x] Match capacity roughly to standard CNN
 
 ### Phase 3: Training Pipeline
-- [ ] Create training script (`test/rotational_mnist/train.py`)
-  - [ ] Case 1: Standard CNN on upright MNIST only
-  - [ ] Case 2: Standard CNN on augmented dataset
-  - [ ] Case 3: ESCNN on upright MNIST only
-  - [ ] Track: training loss, validation accuracy, training time
-  - [ ] Save trained models
+- [x] Create training script (`test/rotational_mnist/train.py`)
+  - [x] Case 1: Standard CNN on upright MNIST only
+  - [x] Case 2: Standard CNN on augmented dataset
+  - [x] Case 3: ESCNN on upright MNIST only
+  - [x] Track: training loss, validation accuracy, training time
+  - [x] Save trained models
 
 ### Phase 4: Evaluation & Testing
 - [ ] Create evaluation script (`test/rotational_mnist/evaluate.py`)

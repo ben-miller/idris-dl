@@ -4,8 +4,7 @@ version = "0.1.0"
 description = ""
 authors = ["Benjamin Miller <benmiller179@gmail.com>"]
 readme = "README.md"
-packages = []
-package-mode = false
+packages = [{include = "lib"}, {include = "test"}]
 
 [tool.poetry.dependencies]
 python = "^3.13"
@@ -22,6 +21,12 @@ escnn = "^1.0.11"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^9.0.0"
+
+[tool.pytest.ini_options]
+log_cli = true
+log_cli_level = "INFO"
+log_cli_format = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+log_cli_date_format = "%Y-%m-%d %H:%M:%S"
 
 [build-system]
 requires = ["poetry-core"]
